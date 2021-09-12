@@ -2,25 +2,63 @@ package com.user.mood.analyser;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MoodAnalyserTest {
-     @Test
-    /*test method to check if 
-     * Sentence contains word sad
+    
+    @Test
+    /*Method to check if 
+     * sentance contains word sad
      */
-    public void sadCheck() {
-        MoodAnalyser moodAnalyser = new MoodAnalyser();
-        String mood = moodAnalyser.analyseMood("This is a sad message");
-        Assert.assertEquals(mood,"SAD");
+    public void sadCheck()  {
+        MoodAnalyser moodAnalyser = new MoodAnalyser("This is sad message");
+        String mood;
+        try {
+            mood = moodAnalyser.analyseMood();
+            Assert.assertEquals("SAD",mood);
+        } catch (MoodAnalyserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-
-    /* test method to check if 
-     * Sentence contains word happy
+    
+    /*Method to check if 
+     * sentance contains word happy
      */
-     @Test
+    @Test
     public void happyCheck() {
-        MoodAnalyser moodAnalyser = new MoodAnalyser();
-        String mood = moodAnalyser.analyseMood("This is a Happy message");
-        Assert.assertEquals(mood,"HAPPY");
+        MoodAnalyser moodAnalyser = new MoodAnalyser("This is a happy message");
+        String mood;
+        try {
+            mood = moodAnalyser.analyseMood();
+            Assert.assertEquals("HAPPY",mood);
+        } catch (MoodAnalyserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
+    
+    @Test
+    public void givenMoodNullShouldHandleException()  {
+        MoodAnalyser moodAnalyser = new MoodAnalyser();
+        try {
+            moodAnalyser.analyseMood(null);
+            
+        } catch (MoodAnalyserException e) {
+            // TODO Auto-generated catch block
+            Assert.assertEquals("Please enter proper message", e.getMessage());
+        }
+    }
+    
+    @Test
+    public void givenMoodEmptyShouldHandleException()  {
+        MoodAnalyser moodAnalyser = new MoodAnalyser();
+        try {
+            moodAnalyser.analyseMood();         
+        } catch (MoodAnalyserException e) {
+            // TODO Auto-generated catch block
+            Assert.assertEquals("Please enter proper message", e.getMessage());
+        }
+    }
+    
 }
